@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 int main ()
 {
-    printf("Hello dear\n");
+    printf("Hello dea\n");
     return 0;
 }
