@@ -55,3 +55,16 @@ val plus3 = fn x => fn y => x+y;
 
 val temp = fn x => fn y => x+y;
 val temp2 = fn (x , y) => x+y;
+
+
+(*This is the curry*)
+fun curry f = fn x => fn y => f (x , y)
+
+(*This is uncurry*)
+fun uncurry f (x , y) = f x y
+fun uncurry2 f = fn (x , y) => f x y
+
+
+(* Some functions for practice*)
+fun timePassAgain f = fn a => fn b =>  f a (b, b)
+fun humHongeKamyab a b (c, d) = a  
