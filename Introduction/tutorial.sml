@@ -80,3 +80,68 @@ fun f a b c = a
 fun f2 a b   = fn c => a
 fun f3 a     = fn b => fn c => a
 val f4       = fn a => fn b => fn c => a  
+
+(*Functions in sml can be passed to other functions *)
+(*This is one of the special properties of the sml*)
+(*This is to show how to store the function in the list*)
+val someIntFunctions = [addp 1 , addp 2 , addp 3]
+
+
+(*ML lists and the functions*)
+val fewPrimeNumbers = [3 , 5 , 7]
+
+(*The x::xs denotes the list with the x as the first element and the xs as the rest of the list*)
+val morePrimeNumbers = 2 :: fewPrimeNumbers     
+
+(*
+To access the elements of the list use the List.nth function 
+It takes a tuple as the argument with the first element as the list and the second element as the index
+The time complexity is O(n)
+*)
+val ListItem = List.nth (fewPrimeNumbers , 2)  (*Taking the element at index in 2 of the fewPrimeNumbers*)
+val funItem = List.nth (someIntFunctions , 1)
+
+(*Writing a function to apply to all the elements in the list*)
+fun map f [] = []
+   | map f (x :: xs) = f x :: map f xs
+
+(*The way to use this function*)
+val useLess = map incr fewPrimeNumbers
+val useLess2 = map (addp 42 ) fewPrimeNumbers
+
+(*Another functionn that is very important for processing list are folds
+fold f a [b0 , b1 , b2 , b3 . . . ] = f (f a b0) b1 . . .
+Think of op as an operator
+fold op a [b0 , b1, b2 , b3  . . ] = ((a op b0) op b1) op b2
+this corresponds to the  library function foldl
+ 
+*)
+
+fun fold _ x [] = x
+   | fold f x (y :: ys) = fold f (f x y) ys
+
+(*Let us write a function to sum up the list of the numbers*)
+val sum = fold addp 0 
+
+(*you can use this method to define the product of the elements of the list*)
+fun subtract x y = x-y
+fun mult x y = x*y
+val product = fold mult 1
+
+(*Ways to apply this function*)
+val useLess3 = sum fewPrimeNumbers
+val useLess4 = product fewPrimeNumbers
+
+val useless5 = fold subtract 0 fewPrimeNumbers
+
+(*there is more elegent way to define this sort of functions*)
+val prod = let  fun mul x y = x * y
+    in fold mul 1
+    end
+val useLess6 = prod fewPrimeNumbers
+
+val sub = let fun subtract x y = x-y
+    in fold subtract 0
+    end
+
+val useLess7 = sub fewPrimeNumbers
